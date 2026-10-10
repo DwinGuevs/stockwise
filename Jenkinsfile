@@ -11,14 +11,13 @@ pipeline {
         }
         stage('Test') {
             steps {
+                // Run npm install & test directly inside a temporary node container mounted to the absolute Jenkins workspace
                 sh '''
-                    docker run --rm -i \
-                      -v "$WORKSPACE":/workspace \
-                      -w /workspace/product-api \
-                      node:22-alpine sh << 'EOF'
-                    npm install --silent
-                    npm test
-EOF
+                    docker run --rm \
+                      -v stockwise_jenkins_jenkins_home:/var/jenkins_home \
+                      -w /var/jenkins_home/workspace/stockwise-pipeline/product-api \
+                      node:22-alpine \
+                      sh -c "npm install --silent && npm test"
                 '''
             }
         }
