@@ -1,0 +1,67 @@
+services:
+  proxy:
+    build: ./proxy
+    image: stockwise-proxy:${TAG:-local}
+    ports: ["8080:80"]
+    depends_on:
+      frontend: {condition: service_started}
+      product-api: {condition: service_healthy}
+      inventory-api: {condition: service_healthy}
+      sales-api: {condition: service_healthy}
+    networks: [appnet]
+    restart: unless-stopped
+  frontend:
+    build: ./frontend
+    image: stockwise-frontend:${TAG:-local}
+    networks: [appnet]
+    restart: unless-stopped
+  product-api:
+    build: ./product-api
+    image: stockwise-product-api:${TAG:-local}
+    environment: &db_env
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-stockwise}
+      DB_USER: ${DB_USER:-stockwise}
+      DB_PASSWORD: ${DB_PASSWORD:-stockwise_dev}
+      APP_VERSION: ${TAG:-local}
+    depends_on:
+      db: {condition: service_healthy}
+    healthcheck: {test: ["CMD", "node", "-e", "fetch('http://localhost:3001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"], interval: 10s, timeout: 3s, retries: 10}
+    networks: [appnet]
+    restart: unless-stopped
+  inventory-api:
+    build: ./inventory-api
+    image: stockwise-inventory-api:${TAG:-local}
+    environment: *db_env
+    depends_on:
+      db: {condition: service_healthy}
+    healthcheck: {test: ["CMD", "node", "-e", "fetch('http://localhost:3002/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"], interval: 10s, timeout: 3s, retries: 10}
+    networks: [appnet]
+    restart: unless-stopped
+  sales-api:
+    build: ./sales-api
+    image: stockwise-sales-api:${TAG:-local}
+    environment: *db_env
+    depends_on:
+      db: {condition: service_healthy}
+    healthcheck: {test: ["CMD", "node", "-e", "fetch('http://localhost:3003/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"], interval: 10s, timeout: 3s, retries: 10}
+    networks: [appnet]
+    restart: unless-stopped
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-stockwise}
+      MYSQL_USER: ${DB_USER:-stockwise}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-stockwise_dev}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_dev_change_me}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck: {test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent"], interval: 10s, timeout: 5s, retries: 15}
+    networks: [appnet]
+    restart: unless-stopped
+volumes:
+  mysql_data:
+networks:
+  appnet:
+    driver: bridge

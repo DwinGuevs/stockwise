@@ -1,0 +1,7 @@
+CREATE DATABASE IF NOT EXISTS stockwise CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE stockwise;
+CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(150) NOT NULL, sku VARCHAR(80) NOT NULL UNIQUE, category VARCHAR(100) NOT NULL DEFAULT 'General', price DECIMAL(12,2) NOT NULL CHECK(price >= 0), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS inventory (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT NOT NULL UNIQUE, quantity INT NOT NULL DEFAULT 0 CHECK(quantity >= 0), low_stock_threshold INT NOT NULL DEFAULT 5, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, CONSTRAINT fk_inventory_product FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE RESTRICT);
+CREATE TABLE IF NOT EXISTS sales (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT NOT NULL, quantity INT NOT NULL CHECK(quantity > 0), unit_price DECIMAL(12,2) NOT NULL, total_amount DECIMAL(12,2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT fk_sales_product FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE RESTRICT);
+INSERT IGNORE INTO products(id,name,sku,category,price) VALUES(1,'Wireless Mouse','WM-001','Accessories',350.00),(2,'USB Keyboard','KB-001','Accessories',550.00);
+INSERT IGNORE INTO inventory(product_id,quantity,low_stock_threshold) VALUES(1,25,5),(2,15,5);
