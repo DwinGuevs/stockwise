@@ -11,7 +11,6 @@ pipeline {
         }
         stage('Test') {
             steps {
-                // Runs npm install and executes native node --test
                 sh 'docker run --rm -v $WORKSPACE:/workspace -w /workspace/product-api node:22-alpine sh -c "npm install --silent && npm test"'
             }
         }
