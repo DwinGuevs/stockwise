@@ -12,11 +12,13 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    docker run --rm \
+                    docker run --rm -i \
                       -v "$WORKSPACE":/workspace \
                       -w /workspace/product-api \
-                      node:22-alpine \
-                      sh -c "npm install --silent && npm test"
+                      node:22-alpine sh << 'EOF'
+                    npm install --silent
+                    npm test
+EOF
                 '''
             }
         }
