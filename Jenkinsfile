@@ -27,7 +27,7 @@ pipeline {
                     }
                 }
 
-                stage('Test Inventory') {
+                stage('Test Inventory API') {
                     agent {
                         docker {
                             image 'node:22-alpine'
@@ -35,7 +35,7 @@ pipeline {
                         }
                     }
                     steps {
-                        dir('inventory') {
+                        dir('inventory-api') {
                             sh 'npm install --silent'
                             sh 'npm test'
                         }
@@ -67,9 +67,9 @@ pipeline {
                     }
                 }
 
-                stage('Build Inventory') {
+                stage('Build Inventory API') {
                     steps {
-                        sh 'docker build -t stockwise-inventory ./inventory'
+                        sh 'docker build -t stockwise-inventory-api ./inventory-api'
                     }
                 }
 
