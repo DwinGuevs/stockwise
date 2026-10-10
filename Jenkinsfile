@@ -95,8 +95,10 @@ pipeline {
 
         stage('Deploy Stack') {
             steps {
-                sh 'docker compose down --remove-orphans || true'
-                sh 'docker compose up -d'
+                sh '''
+                    docker-compose down || docker compose down || true
+                    docker-compose up -d || docker compose up --detach || true
+                '''
             }
         }
     }
