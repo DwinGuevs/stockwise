@@ -78,6 +78,25 @@ pipeline {
                         sh 'docker build -t stockwise-sales-api ./sales-api'
                     }
                 }
+
+                stage('Build Frontend') {
+                    steps {
+                        sh 'docker build -t stockwise-frontend ./frontend'
+                    }
+                }
+
+                stage('Build Proxy') {
+                    steps {
+                        sh 'docker build -t stockwise-proxy ./proxy'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Stack') {
+            steps {
+                sh 'docker compose down --remove-orphans || true'
+                sh 'docker compose up -d'
             }
         }
     }
