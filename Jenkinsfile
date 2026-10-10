@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        pollSCM('H/2 * * * *')
+        pollSCM('H * * * *') // Polls GitHub every 1 minute for new commits
     }
     options {
         disableConcurrentBuilds()
