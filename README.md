@@ -37,4 +37,3 @@ Add member names and roles here before submission.
 ## Important project notes
 This is a functional educational starter. Review and test the pipeline and webhook on your machine; Jenkins credentials, repository URL, webhook endpoint, and rollback demonstration must be configured for your actual environment. Do not commit `.env`.
 
-asdasdasd
