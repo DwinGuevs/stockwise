@@ -33,11 +33,11 @@ Create a product, run `docker compose down` then `docker compose up -d`, and con
 
 ## Team
 GROUP MEMBERS AND ROLES:
-AFULUGENCIA, SHAWN FRANCIS – Infrastructure Engineer
-CATUNGAL, ANTHONY EDUARD – Frontend, QA, and Documentation Lead
-GUEVARRA, ALDWIN RAVEN – Project Lead / Scrum Master, Backend and Database Engineer
-PALMA, FERDINAND PAUL – DevOps / CI-CD Engineer
-YAMYAMIN, REINIEL – Frontend, QA, and Documentation Lead
+-AFULUGENCIA, SHAWN FRANCIS – Infrastructure Engineer
+-CATUNGAL, ANTHONY EDUARD – Frontend, QA, and Documentation Lead
+-GUEVARRA, ALDWIN RAVEN – Project Lead / Scrum Master, Backend and Database Engineer
+-PALMA, FERDINAND PAUL – DevOps / CI-CD Engineer
+-YAMYAMIN, REINIEL – Frontend, QA, and Documentation Lead
 
 ## Important project notes
 This is a functional educational starter. Review and test the pipeline and webhook on your machine; Jenkins credentials, repository URL, webhook endpoint, and rollback demonstration must be configured for your actual environment. Do not commit `.env`.
