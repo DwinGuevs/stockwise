@@ -32,8 +32,12 @@ Checkout → Test → Build → Deploy → Smoke Test. Image tags use the Jenkin
 Create a product, run `docker compose down` then `docker compose up -d`, and confirm the record remains. Never use `-v` for this test.
 
 ## Team
-Add member names and roles here before submission.
+GROUP MEMBERS AND ROLES:
+AFULUGENCIA, SHAWN FRANCIS – Infrastructure Engineer
+CATUNGAL, ANTHONY EDUARD – Frontend, QA, and Documentation Lead
+GUEVARRA, ALDWIN RAVEN – Project Lead / Scrum Master, Backend and Database Engineer
+PALMA, FERDINAND PAUL – DevOps / CI-CD Engineer
+YAMYAMIN, REINIEL – Frontend, QA, and Documentation Lead
 
 ## Important project notes
 This is a functional educational starter. Review and test the pipeline and webhook on your machine; Jenkins credentials, repository URL, webhook endpoint, and rollback demonstration must be configured for your actual environment. Do not commit `.env`.
-
